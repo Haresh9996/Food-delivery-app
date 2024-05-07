@@ -22,11 +22,11 @@ export default function Restaurant() {
                             {
                                 logIn ?
                                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                        Don't have an account? <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">Signup here</span>
+                                    Don&apos;t have an account? <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">Signup here</span>
                                     </p>
                                     :
                                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                        Already have an account? <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</span>
+                                        Already have an account ? <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</span>
                                     </p>
                             }
                         </button>
