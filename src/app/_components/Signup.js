@@ -37,7 +37,11 @@ export default function Signup() {
                 router.push("/restaurant/dashboard")
 
             } else {
-                alert("Failed to add restaurant");
+                if (result.message === "Email already exists") {
+                    alert("Email already exists. Please use a different email address.");
+                } else {
+                    alert("Failed to add restaurant");
+                }
             }
         } catch (error) {
             console.log(error)
@@ -82,20 +86,20 @@ export default function Signup() {
                     <div>
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Restaurant name</label>
                         <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Restaurant name " required=""
-                            value={name} onChange={(e) => setName(e.target.value)} />
+                            value={name} onChange={(e) => setName(e.target.value.toUpperCase())} />
                     </div>
                 </div>
 
                 <div>
                     <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your address</label>
                     <input type="text" name="address" id="address" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address" required=""
-                        value={address} onChange={(e) => setAddress(e.target.value)} />
+                        value={address} onChange={(e) => setAddress(e.target.value.toLowerCase())} />
                 </div>
                 <div className="flex space-x-4">
                     <div>
                         <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your city</label>
                         <input type="text" name="city" id="city" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="City Name" required=""
-                            value={city} onChange={(e) => setCity(e.target.value)} />
+                            value={city} onChange={(e) => setCity(e.target.value.toLowerCase())} />
                     </div>
                     <div>
                         <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Mo. No.</label>
