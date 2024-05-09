@@ -25,15 +25,20 @@ export async function POST(request) {
         let data;
         let success = false;
 
+        const existingUser = await restaurantSchema.findOne({ email: payload.email });
         if (payload.Login) {
             data = await restaurantSchema.findOne({ email: payload.email, password: payload.password })
-            if(data){
+            if (data) {
                 success = true;
             }
+        }else if (existingUser) {
+            success = false
+            return NextResponse.json({ success, message: "Email already exists" });
+
         } else {
             const restaurant = new restaurantSchema(payload)
             data = await restaurant.save()
-            if(data){
+            if (data) {
                 success = true;
             }
         }
