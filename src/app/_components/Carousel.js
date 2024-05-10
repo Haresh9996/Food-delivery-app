@@ -42,13 +42,15 @@ const Carousel = () => {
                         </div>
                     ))}
                 </div>
-                <div className='absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-20 backdrop-blur-md p-6 rounded-md'>
+
+                {/* <div className='absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-20 backdrop-blur-md p-6 rounded-md'>
                     <h2 className="text-white font-bold text-4xl text-center mb-3">Food Delivery App</h2>
                     <div className='w-full flex items-center space-x-4 flex-wrap'>
                         <input type="text" placeholder='Select Place' className="px-1 py-3 w-[30%] focus:outline-none rounded-lg" />
                         <input type="text" placeholder='Enter Food or Restaurant' className='px-1 py-3 w-[65%] focus:outline-none rounded-lg' />
                     </div>
-                </div>
+                </div> */}
+
                 <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
                     {images.map((_, index) => (
                         <button
