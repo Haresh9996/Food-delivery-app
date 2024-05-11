@@ -54,7 +54,7 @@ export default function RestoList({ selectedLocation }) {
                         </>
                     ) : (
                         restoList.map(item => (
-                            <Link href={`/${item.name}?id=${item._id}`} key={item._id}>
+                            <Link href={item.name + "?id=" + item._id} key={item._id}>
                                 <Card className="max-w-[400px] min-w-[300px]">
                                     <CardHeader className="flex gap-3">
                                         <div className="flex flex-col">
@@ -76,9 +76,9 @@ export default function RestoList({ selectedLocation }) {
                             </Link>
                         ))
                     )}
-                   
+
                 </div>
-            </div>
+            </div >
         </>
     );
 }

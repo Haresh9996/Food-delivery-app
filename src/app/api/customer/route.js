@@ -5,16 +5,16 @@ import { NextResponse } from "next/server"
 
 export async function GET(request){
     try {
-        const queryParams = request.nextUrl.searchParams
+        const { searchParams } = new URL(request.url);
+        const location = searchParams.get("location");
+        const restaurant = searchParams.get("restaurant");
+
         await mongoose.connect(connectionStr);
         let filter = {}
-        if(queryParams.get("location")){
-            filter.city = queryParams.get("location")
-        }else if(queryParams.get("restaurant")){
-
-            filter.name = queryParams.get("restaurant")
-        }else{
-            // filer = await 
+        if(location){
+            filter.city = location
+        }else if(restaurant){
+            filter.name = restaurant
         }
     
         const data = await restaurantSchema.find(filter)
