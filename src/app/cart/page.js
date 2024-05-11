@@ -3,7 +3,7 @@
 import { useState } from "react"
 import ClientNav from "../_components/ClientNav";
 
-export default function page() {
+export default function Cart() {
     const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem("cart") || []))
 
     const removeFromCart = (id) => {
