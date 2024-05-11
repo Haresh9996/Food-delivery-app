@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { connectionStr } from "@/app/lib/db"
 import { restaurantSchema } from "@/app/lib/restaurantModel";
 import mongoose from "mongoose"
@@ -23,6 +24,6 @@ export async function GET(request){
         return NextResponse.json({success: true, message: data})
     } catch (error) {
         console.log(error)
-        return NextResponse.json({success: true, message: data})
+        return NextResponse.json({success: false, message: error})
     }
 }
