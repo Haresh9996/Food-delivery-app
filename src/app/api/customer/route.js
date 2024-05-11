@@ -5,7 +5,7 @@ import mongoose from "mongoose"
 import { NextResponse } from "next/server"
 
 export async function GET(request){
-    console.log("request is",request)
+    // console.log("request is",request)
     try {
         const { searchParams } = new URL(request?.url);
         const location = searchParams.get("location");
