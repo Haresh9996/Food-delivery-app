@@ -1,8 +1,7 @@
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { BASE_LOCAL_URL } from "../lib/db"
 
-export default function Signup() {
+export default function UserSignUp() {
     const [email, setEmail] = useState("")
     const [name, setName] = useState("")
     const [address, setAddress] = useState("")
@@ -12,39 +11,10 @@ export default function Signup() {
     const [cpassword, setCPassword] = useState("")
 
     const router = useRouter()
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (!validateForm()) {
             return;
-        }
-
-        try {
-            let result = await fetch(BASE_LOCAL_URL + "/api/restaurant", {
-                method: "POST",
-                body: JSON.stringify({ email, name, address, city, number, password })
-            })
-            result = await result.json()
-
-            if (result.success) {
-                alert("Restaurant Added Succesfully")
-
-                const { message } = result;
-                delete message.password;
-                localStorage.setItem("restoUser", JSON.stringify(message));
-
-                router.push("/restaurant/dashboard")
-
-            } else {
-                if (result.message === "Email already exists") {
-                    alert("Email already exists. Please use a different email address.");
-                } else {
-                    alert("Failed to add restaurant");
-                }
-            }
-        } catch (error) {
-            console.log(error)
-            alert("An error occurred while adding restaurant");
         }
     }
     const validateForm = () => {
@@ -68,10 +38,8 @@ export default function Signup() {
 
         return true;
     };
-
     return (
         <>
-
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create an account
             </h1>
@@ -123,7 +91,6 @@ export default function Signup() {
                     onClick={handleSubmit}>Create an account</button>
 
             </form>
-
         </>
     )
 };
