@@ -1,8 +1,9 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { BASE_LOCAL_URL } from "../lib/db"
 
-export default function UserSignUp() {
+export default function UserSignUp({searchParams}) {
     const [email, setEmail] = useState("")
     const [name, setName] = useState("")
     const [address, setAddress] = useState("")
@@ -17,7 +18,35 @@ export default function UserSignUp() {
         if (!validateForm()) {
             return;
         }
+
+        const response = await fetch(BASE_LOCAL_URL + "/api/user", {
+            method: "POST",
+            body: JSON.stringify({ name, email, address, city, number, password })
+        })
+        if (response.ok) {
+            const result = await response.json()
+
+            if (result.success) {
+                alert("User Signup succefully")
+                const { message } = result;
+                delete message.password;
+                localStorage.setItem("user", JSON.stringify(message));
+                if (searchParams?.login) {
+                    router.push("/cart")
+                } else {
+                    router.push("/")
+                }
+
+            } else {
+                if (result.message === "Email already exists") {
+                    alert("Email already exists. Please use a different email address.");
+                } else {
+                    alert("Something went wrong")
+                }
+            }
+        }
     }
+
     const validateForm = () => {
         if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
             alert("Please enter a valid email address");
@@ -47,31 +76,31 @@ export default function UserSignUp() {
             <form className="space-y-4 md:space-y-6" action="#">
                 <div className="flex space-x-4">
                     <div>
-                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                        <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required=""
-                            value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Enter your name</label>
+                        <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your name " required=""
+                            value={name} onChange={(e) => setName(e.target.value.toUpperCase())} />
                     </div>
                     <div>
-                        <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Restaurant name</label>
-                        <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Restaurant name " required=""
-                            value={name} onChange={(e) => setName(e.target.value.toUpperCase())} />
+                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Enter Your email</label>
+                        <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@example.com" required=""
+                            value={email} onChange={(e) => setEmail(e.target.value)} />
                     </div>
                 </div>
 
                 <div>
                     <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your address</label>
-                    <input type="text" name="address" id="address" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address" required=""
+                    <input type="text" name="address" id="address" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your Address" required=""
                         value={address} onChange={(e) => setAddress(e.target.value.toLowerCase())} />
                 </div>
                 <div className="flex space-x-4">
                     <div>
                         <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your city</label>
-                        <input type="text" name="city" id="city" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="City Name" required=""
+                        <input type="text" name="city" id="city" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your City Name" required=""
                             value={city} onChange={(e) => setCity(e.target.value.toLowerCase())} />
                     </div>
                     <div>
                         <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Mo. No.</label>
-                        <input type="number" name="number" id="number" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mobile number" required=""
+                        <input type="number" name="number" id="number" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your Mobile number" required=""
                             value={number} onChange={(e) => setNumber(e.target.value)} />
                     </div>
                 </div>
