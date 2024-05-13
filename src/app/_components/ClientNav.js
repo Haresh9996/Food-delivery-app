@@ -1,7 +1,7 @@
 "use client"
 import { FiShoppingCart } from "react-icons/fi";
 import Link from "next/link";
-import { Badge, Button } from "@nextui-org/react";
+import { Avatar, Badge, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -9,6 +9,7 @@ export default function ClientNav({ cart }) {
 
     const [cartNum, setCartNum] = useState(0)
     const [user, setUser] = useState({})
+    const [open, setOpen] = useState(false)
     const router = useRouter()
     // const path = usePathname()
 
@@ -20,12 +21,13 @@ export default function ClientNav({ cart }) {
     const handleLogout = () => {
         localStorage.removeItem("user");
         setUser(null);
+        setOpen(false)
         router.push("/")
     };
 
     useEffect(() => {
         const localCart = JSON.parse(localStorage.getItem("cart")) || [];
-        
+
         setCartNum(localCart?.length)
 
     }, [cart])
@@ -78,19 +80,25 @@ export default function ClientNav({ cart }) {
                                 <div>
                                     {
                                         user ?
-                                            <Button className="text-gray-600 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" onClick={handleLogout}>Log out</Button>
+                                            <Avatar showFallback onClick={() => setOpen(!open)} src='https://images.unsplash.com/broken' />
                                             :
                                             <Link href="/user-auth" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Log in</Link>
 
                                     }
                                 </div>
 
-                                <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
+                                {
+                                    open ? <>
+                                        <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
 
-                                    <Link href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">Your Profile</Link>
-                                    <Link href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">Settings</Link>
-                                    <Link href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</Link>
-                                </div>
+                                            <Link href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">Your Profile</Link>
+                                            <Link href="/yourOrder" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-">Your Orders</Link>
+                                            <Link href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2" onClick={handleLogout}>Log out</Link>
+                                        </div>
+                                    </>
+                                        : null
+                                }
+
                             </div>
                         </div>
                     </div>

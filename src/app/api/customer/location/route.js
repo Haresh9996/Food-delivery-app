@@ -7,7 +7,7 @@ export async function GET(){
     try {
         await mongoose.connect(connectionStr);
         const data = await restaurantSchema.find()
-        // let result = data.map(item => item.city)
+        
         let result = [...new Set(data.map(item => item.city))]
     
         return NextResponse.json({success: true, message: result})
