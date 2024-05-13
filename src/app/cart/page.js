@@ -2,9 +2,13 @@
 
 import { useEffect, useState } from "react"
 import ClientNav from "../_components/ClientNav";
+import { Button } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 export default function Cart() {
     const [cartItems, setCartItems] = useState([]);
+    const [userData, setUserData] = useState(null)
+    const router = useRouter();
 
     useEffect(() => {
         const storedCartItems = localStorage.getItem("cart");
@@ -12,7 +16,14 @@ export default function Cart() {
             setCartItems(JSON.parse(storedCartItems));
         }
     }, []);
-    
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem("user");
+        if (storedUserData) {
+            setUserData(JSON.parse(storedUserData));
+        }
+    }, []);
+
     const removeFromCart = (id) => {
         const updatedCartItems = cartItems.filter(item => item._id !== id);
         setCartItems(updatedCartItems);
@@ -43,12 +54,21 @@ export default function Cart() {
 
     const totalQuantity = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
     const subtotal = cartItems.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
-    const tax = subtotal * 0.1
-    const totalAmount = subtotal + tax
+    const tax = (subtotal * 0.1).toFixed(2);
+    const totalAmount = (subtotal + parseFloat(tax)).toFixed(2); 
+
+    const handleOrder = () => {
+        if(userData){
+            router.push("/order-now")
+        }else{
+            alert("You need to login First")
+            router.push("/user-auth?login=true")
+        }
+    }
 
     return (
         <>
-        <ClientNav />
+            <ClientNav />
             <div className="container mx-auto px-4 py-8">
                 <h1 className="text-3xl font-semibold mb-4">Your Cart</h1>
                 <div>
@@ -86,6 +106,14 @@ export default function Cart() {
                         <p className="text-lg flex items-center justify-between border-b-1 "><span>Subtotal:</span><span> ₹ {subtotal}</span></p>
                         <p className="text-lg flex items-center justify-between border-b-1"><span>Tax: </span><span>₹ {tax}</span></p>
                         <p className="text-lg font-semibold flex items-center justify-between border-b-1"><span>Total Amount:</span><span> ₹ {totalAmount}</span></p>
+
+
+                        <div className="text-right mt-4">
+                            <Button onClick={handleOrder} className="inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md focus:outline-none">
+                                Order Now
+                            </Button>
+                        </div>
+
                     </div>
                 </div>
             </div>

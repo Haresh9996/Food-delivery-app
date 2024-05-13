@@ -6,6 +6,7 @@ import Nav from "../_components/Nav";
 
 export default function Restaurant() {
     const [logIn, setLogIn] = useState(true);
+    
     return (
         <div className="min-h-[100dvh]">
             <section className="bg-gray-50 dark:bg-gray-900">
