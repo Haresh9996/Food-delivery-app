@@ -43,20 +43,30 @@ export default function Home() {
       <div className="relative">
 
         <Carousel />
-
-        <div className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-20 backdrop-blur-md p-6 rounded-md">
+        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 backdrop-blur-md p-6 rounded-md">
           <h2 className="text-white font-bold text-4xl text-center mb-3">Food Delivery App</h2>
 
-          <div className="w-full flex items-center space-x-4 flex-wrap relative">
-            <input type="text" placeholder="Select City" className="px-1 py-3 w-[30%] focus:outline-none rounded-lg cursor-pointer" value={selectedLocation} onClick={() => setHidden(true)} readOnly />
+          <div className="w-full flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 relative">
+            <input
+              type="text" placeholder="Select City" className="px-3 py-2 w-full sm:w-[30%] focus:outline-none rounded-lg cursor-pointer" value={selectedLocation} onClick={() => setHidden(true)} readOnly />
 
-            {hidden && <ul className="w-[30%] bg-white p-3 absolute -left-4 top-10 rounded-b-lg">
-            <li className="cursor-pointer" onClick={blankLocation}>See all Restaurants</li>
-            <Divider />
-              {location && location.map((city, i) => <li key={i} className="list-none cursor-pointer" onClick={() => handleList(city)}> {city}</li>)}
-            </ul>}
+            {hidden && (
+              <ul className="w-full sm:w-[30%] bg-white p-3 absolute sm:-left-4 top-10 rounded-b-lg">
+                <li className="cursor-pointer" onClick={blankLocation}>
+                  See all Restaurants
+                </li>
+                <Divider />
+                {location &&
+                  location.map((city, i) => (
+                    <li key={i} className="list-none cursor-pointer" onClick={() => handleList(city)}>
+                      {city}
+                    </li>
+                  ))}
+              </ul>
+            )}
 
-            <input type="text" placeholder='Enter Food or Restaurant' className='px-1 py-3 w-[65%] focus:outline-none rounded-lg' />
+            <input
+              type="text" placeholder="Enter Food or Restaurant" className="px-3 py-2 w-full sm:w-[65%] focus:outline-none rounded-lg" />
           </div>
         </div>
       </div>
