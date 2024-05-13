@@ -1,11 +1,13 @@
+export const dynamic = 'force-dynamic';
 import { connectionStr } from "@/app/lib/db"
 import { restaurantSchema } from "@/app/lib/restaurantModel";
 import mongoose from "mongoose"
 import { NextResponse } from "next/server"
 
 export async function GET(request){
+    // console.log("request is",request)
     try {
-        const { searchParams } = new URL(request.url);
+        const { searchParams } = new URL(request?.url);
         const location = searchParams.get("location");
         const restaurant = searchParams.get("restaurant");
 
@@ -22,6 +24,6 @@ export async function GET(request){
         return NextResponse.json({success: true, message: data})
     } catch (error) {
         console.log(error)
-        return NextResponse.json({success: true, message: data})
+        return NextResponse.json({success: false, message: error})
     }
 }

@@ -1,11 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ClientNav from "../_components/ClientNav";
 
 export default function Cart() {
-    const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem("cart") || []))
+    const [cartItems, setCartItems] = useState([]);
 
+    useEffect(() => {
+        const storedCartItems = localStorage.getItem("cart");
+        if (storedCartItems) {
+            setCartItems(JSON.parse(storedCartItems));
+        }
+    }, []);
+    
     const removeFromCart = (id) => {
         const updatedCartItems = cartItems.filter(item => item._id !== id);
         setCartItems(updatedCartItems);
